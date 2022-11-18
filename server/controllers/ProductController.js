@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client')
 
 const prisma = new PrismaClient()
 
-const getProducts = async (req, res) => {
+exports.getProducts = async (req, res) => {
     try {
         const res = await prisma.product.findMany()
         res.status(200).json(res)
@@ -10,7 +10,7 @@ const getProducts = async (req, res) => {
         res.status(500).json({msg: err.message})
     }
 }
-const getProductById = async (req, res) => {
+exports.getProductById = async (req, res) => {
     try {
         const res = await prisma.product.findUniqe({
             where: {
@@ -23,7 +23,7 @@ const getProductById = async (req, res) => {
     }
 
 }
-const createProduct = async (req, res) => {
+exports.createProduct = async (req, res) => {
     const { name, price } = req.body
     try {
         const product = await prisma.product.create({
@@ -37,7 +37,7 @@ const createProduct = async (req, res) => {
         res.status(400).json({msg: err.message})
     }
 }
-const updateProduct = async (req, res) => {
+exports.updateProduct = async (req, res) => {
     const { name, price } = req.body
     try {
         const product = await prisma.product.update({
@@ -54,7 +54,7 @@ const updateProduct = async (req, res) => {
         res.status(400).json({msg: err.message})
     }
 }
-const deleteProduct = async (req, res) => {
+exports.deleteProduct = async (req, res) => {
     try {
         const product = await prisma.product.delete({
             where: {
@@ -65,12 +65,4 @@ const deleteProduct = async (req, res) => {
     } catch(err) {
         res.status(400).json({msg: err.message})
     }
-}
-
-module.exports = {
-    getProducts,
-    getProductById,
-    createProduct,
-    updateProduct,
-    deleteProduct
 }
